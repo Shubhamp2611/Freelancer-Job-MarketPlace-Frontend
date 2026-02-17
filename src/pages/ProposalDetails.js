@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Container,
@@ -35,7 +35,7 @@ import { jobAPI } from '../api/jobAPI';
 const ProposalDetails = () => {
   const { proposalId } = useParams();
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const [user, setUser] = useState({ role: '' });
   const [proposal, setProposal] = useState(null);
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -46,12 +46,19 @@ const ProposalDetails = () => {
   const [actionType, setActionType] = useState('');
   const [actionMessage, setActionMessage] = useState('');
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // Fetch user from localStorage on mount
   useEffect(() => {
-    fetchProposalDetails();
-  }, [proposalId]);
+    try {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    } catch (err) {
+      console.error('Failed to parse user:', err);
+    }
+  }, []);
 
-  const fetchProposalDetails = async () => {
+  const fetchProposalDetails = useCallback(async () => {
     try {
       setLoading(true);
       setError('');
@@ -74,7 +81,13 @@ const ProposalDetails = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [proposalId]);
+
+  useEffect(() => {
+    if (proposalId) {
+      fetchProposalDetails();
+    }
+  }, [proposalId, fetchProposalDetails]);
 
   const handleProposalAction = async () => {
     if (!proposal) return;
@@ -318,7 +331,7 @@ const ProposalDetails = () => {
 
         {/* Sidebar - Actions */}
         <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 3, sticky: true }}>
+          <Paper sx={{ p: 3 }}>
             <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
               Actions
             </Typography>

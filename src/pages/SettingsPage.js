@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Paper,
@@ -21,13 +21,30 @@ import {
   Security,
   Palette,
 } from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNotification } from '../contexts/NotificationContext';
+
+// Simple notification hook instead of importing from context
+const useNotification = () => {
+  const [message, setMessage] = useState('');
+  const [type, setType] = useState('success');
+
+  const showSuccess = (msg) => {
+    setMessage(msg);
+    setType('success');
+    setTimeout(() => setMessage(''), 3000);
+  };
+
+  const showError = (msg) => {
+    setMessage(msg);
+    setType('error');
+    setTimeout(() => setMessage(''), 3000);
+  };
+
+  return { showSuccess, showError, message, type };
+};
 
 const SettingsPage = () => {
-  const dispatch = useDispatch();
-  const { showSuccess, showError } = useNotification();
-  const { user } = useSelector(state => state.auth || {});
+  const { showSuccess, showError, message, type } = useNotification();
+  const [user, setUser] = useState({ fullName: '', email: '', phone: '' });
 
   const [settings, setSettings] = useState({
     emailNotifications: true,
@@ -39,12 +56,30 @@ const SettingsPage = () => {
   });
 
   const [profileData, setProfileData] = useState({
-    fullName: user?.fullName || '',
-    email: user?.email || '',
-    phone: user?.phone || '',
+    fullName: '',
+    email: '',
+    phone: '',
   });
 
   const [loading, setLoading] = useState(false);
+
+  // Load user from localStorage on mount
+  useEffect(() => {
+    try {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+        setProfileData({
+          fullName: parsedUser.fullName || parsedUser.name || '',
+          email: parsedUser.email || '',
+          phone: parsedUser.phone || '',
+        });
+      }
+    } catch (err) {
+      console.error('Failed to parse user:', err);
+    }
+  }, []);
 
   const handleSettingChange = (key) => {
     setSettings(prev => ({
@@ -64,8 +99,8 @@ const SettingsPage = () => {
   const handleSaveSettings = async () => {
     try {
       setLoading(true);
-      // API call to save settings
-      // await updateSettings(settings);
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
       showSuccess('Settings saved successfully!');
     } catch (error) {
       showError(error.message || 'Failed to save settings');
@@ -77,8 +112,8 @@ const SettingsPage = () => {
   const handleSaveProfile = async () => {
     try {
       setLoading(true);
-      // API call to update profile
-      // await updateProfile(profileData);
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
       showSuccess('Profile updated successfully!');
     } catch (error) {
       showError(error.message || 'Failed to update profile');
@@ -92,6 +127,12 @@ const SettingsPage = () => {
       <Typography variant="h4" sx={{ mb: 4, display: 'flex', alignItems: 'center', gap: 1 }}>
         <SettingsIcon /> Settings
       </Typography>
+
+      {message && (
+        <Alert severity={type} sx={{ mb: 2 }} onClose={() => setMessage('')}>
+          {message}
+        </Alert>
+      )}
 
       <Grid container spacing={3}>
         {/* Profile Settings */}
