@@ -5,7 +5,7 @@
 
   "build": {
     "env": {
-      "REACT_APP_API_URL": "http://localhost:10000/api",
+      "REACT_APP_API_URL": "https://freelancer-job-marketplace-springboot.onrender.com/api",
       "DISABLE_ESLINT_PLUGIN": "true",
       "CI": "false",
       "GENERATE_SOURCEMAP": "false"
