@@ -1,5 +1,14 @@
 {
   "rewrites": [
     { "source": "/(.*)", "destination": "/" }
-  ]
+  ],
+
+  "build": {
+    "env": {
+      "REACT_APP_API_URL": "http://localhost:10000/api",
+      "DISABLE_ESLINT_PLUGIN": "true",
+      "CI": "false",
+      "GENERATE_SOURCEMAP": "false"
+    }
+  }
 }
