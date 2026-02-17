@@ -1,0 +1,249 @@
+📁 FRONTEND PROJECT STRUCTURE - UPDATED
+
+freelancing-frontend/
+│
+├── 📄 .env ✨ NEW
+│   └─ REACT_APP_API_URL=http://localhost:8080/api
+│
+├── 📚 DOCUMENTATION FILES (5 files) ✨ NEW
+│   ├── 📄 README_SETUP.md (THIS FILE)
+│   │   └─ Complete overview of all changes
+│   │
+│   ├── 📄 QUICK_REFERENCE.md
+│   │   └─ Quick lookup: endpoints, credentials, commands
+│   │   └─ 2-page reference card format
+│   │   └─ Best for: Quick answers
+│   │
+│   ├── 📄 API_SETUP_GUIDE.md
+│   │   └─ Detailed API documentation (400+ lines)
+│   │   └─ All 42 endpoints explained
+│   │   └─ Testing procedures
+│   │   └─ Common issues & solutions
+│   │   └─ Best for: Learning details
+│   │
+│   ├── 📄 SETUP_COMPLETE.md
+│   │   └─ Setup verification checklist
+│   │   └─ Feature matrix
+│   │   └─ Files changed summary
+│   │   └─ Best for: Verification & validation
+│   │
+│   └── 📄 INTEGRATION_EXAMPLES.js
+│       └─ 12 working code examples
+│       └─ Copy-paste ready implementations
+│       └─ All major operations covered
+│       └─ Best for: Code implementation
+│
+├── 🚀 SETUP SCRIPTS (2 files) ✨ NEW
+│   ├── 📄 start.sh (Linux/macOS)
+│   │   └─ chmod +x start.sh && ./start.sh
+│   │
+│   └── 📄 start.bat (Windows)
+│       └─ Double-click or: start.bat
+│
+├── 📦 src/
+│   │
+│   ├── 🔑 api/ (Main API Layer)
+│   │   ├── 📄 axiosConfig.js 🔄 UPDATED
+│   │   │   │─ Port: 10000 → 8080
+│   │   │   │─ Environment variable support
+│   │   │   │─ Request/response interceptors
+│   │   │   │─ Automatic token handling
+│   │   │   └─ 401 auto-logout
+│   │   │
+│   │   ├── 📄 authAPI.js 🔄 UPDATED
+│   │   │   ├─ login(credentials)
+│   │   │   ├─ register(userData)
+│   │   │   ├─ forgotPassword(email)
+│   │   │   ├─ resetPassword(data)
+│   │   │   ├─ refreshToken(token) ✨ ADDED
+│   │   │   └─ getCurrentUser()
+│   │   │
+│   │   ├── 📄 jobAPI.js 🔄 UPDATED
+│   │   │   ├─ getOpenJobs()
+│   │   │   ├─ getMyJobs()
+│   │   │   ├─ getAllJobs()
+│   │   │   ├─ getJobById(id)
+│   │   │   ├─ createJob(data)
+│   │   │   ├─ updateJob(id, data)
+│   │   │   ├─ deleteJob(id)
+│   │   │   └─ searchJobs(keyword, page, size, sortBy, direction) ✨ ENHANCED
+│   │   │
+│   │   ├── 📄 proposalAPI.js ✅ VERIFIED
+│   │   │   ├─ submitProposal(data)
+│   │   │   ├─ getProposalById(id)
+│   │   │   ├─ getProposalsForJob(jobId)
+│   │   │   ├─ getMyProposals()
+│   │   │   ├─ acceptProposal(id, message)
+│   │   │   ├─ rejectProposal(id, message)
+│   │   │   ├─ withdrawProposal(id)
+│   │   │   ├─ getAllProposals()
+│   │   │   └─ getProposalsByStatus(status)
+│   │   │
+│   │   ├── 📄 contractAPI.js ✅ VERIFIED
+│   │   │   ├─ getMyContracts()
+│   │   │   ├─ createContract(data)
+│   │   │   ├─ getContractById(id)
+│   │   │   ├─ fundEscrow(id)
+│   │   │   ├─ getMilestones(id)
+│   │   │   ├─ submitMilestone(id, deliverables)
+│   │   │   ├─ approveMilestone(id, feedback)
+│   │   │   ├─ requestRevision(id, feedback)
+│   │   │   ├─ completeContract(id, rating, review)
+│   │   │   ├─ submitReview(id, rating, review)
+│   │   │   ├─ sendMessage(id, message)
+│   │   │   └─ getMessages(id)
+│   │   │
+│   │   ├── 📄 paymentAPI.js 🔄 UPDATED
+│   │   │   ├─ createEscrowPayment(contractId, clientId)
+│   │   │   ├─ releaseMilestone(contractId, milestoneId, clientId) ✨ ADDED
+│   │   │   ├─ getPaymentHistory(userId)
+│   │   │   └─ withdrawEarnings(freelancerId, amount)
+│   │   │
+│   │   ├── 📄 adminAPI.js 🔄 UPDATED
+│   │   │   ├─ getDashboardStats()
+│   │   │   ├─ getFinancialReport()
+│   │   │   └─ getUsers() (was: getRecentUsers)
+│   │   │
+│   │   ├── 📄 testConnection.js ✨ NEW
+│   │   │   ├─ testBackendConnection() ─ Full diagnostic test
+│   │   │   ├─ testEndpoint(method, url, data) ─ Test specific endpoint
+│   │   │   └─ debugAPICall(method, url, data) ─ Debug with logging
+│   │   │
+│   │   └── 📄 TEST_CREDENTIALS.js ✨ NEW
+│   │       ├─ Admin: admin@marketplace.com / admin123
+│   │       ├─ Client: client@example.com / client123
+│   │       └─ Freelancer: freelancer@example.com / freelancer123
+│   │
+│   ├── contexts/
+│   │   ├── ThemeContext.js ✅ (Dark/Light mode)
+│   │   └── NotificationContext.js ✅ (Toast notifications)
+│   │
+│   ├── pages/
+│   │   ├── ClientDashboard.js ✨ With loading skeletons
+│   │   ├── FreelancerDashboard.js ✨ With loading skeletons
+│   │   ├── AdminDashboard.js ✨ With loading skeletons
+│   │   ├── SettingsPage.js ✨ NEW
+│   │   ├── HelpPage.js ✨ NEW
+│   │   ├── TermsPage.js ✨ NEW
+│   │   ├── PrivacyPage.js ✨ NEW
+│   │   ├── FreelancersPage.js ✨ NEW
+│   │   ├── PortfolioPage.js ✨ NEW
+│   │   └── [other pages]
+│   │
+│   ├── components/
+│   │   ├── common/
+│   │   │   ├── Header.js ✨ Updated with new routes
+│   │   │   ├── ProtectedRoute.js ✨ Enhanced with Redux
+│   │   │   ├── StatsCard.js ✅
+│   │   │   ├── LoadingSkeleton.js ✅
+│   │   │   └── [other components]
+│   │   └── [feature components]
+│   │
+│   ├── store/
+│   │   └── [Redux setup] ✅
+│   │
+│   ├── hooks/
+│   │   └── useAuth.js ✅
+│   │
+│   ├── utils/
+│   │   └── [utility functions] ✅
+│   │
+│   ├── App.js ✨ Updated with Providers
+│   └── index.js ✅
+│
+├── 📄 package.json ✅ (No changes needed)
+├── 📄 public/
+│   ├── index.html ✅
+│   └── manifest.json ✅
+│
+└── 📄 .gitignore ✅
+
+═══════════════════════════════════════════════════════════════
+
+✨ = New or Significantly Updated
+🔄 = Updated/Enhanced
+✅ = Verified - No changes needed
+
+═══════════════════════════════════════════════════════════════
+
+STATISTICS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Files Created:           10
+  • .env
+  • 5 Documentation files
+  • 2 Setup scripts
+  • 2 Testing/Reference files
+
+Files Updated:           5
+  • axiosConfig.js (port change)
+  • authAPI.js (+refreshToken)
+  • jobAPI.js (enhanced search)
+  • paymentAPI.js (+releaseMilestone)
+  • adminAPI.js (standardized)
+
+Files Verified:          2
+  • proposalAPI.js
+  • contractAPI.js
+
+Pages Created:           6
+  • SettingsPage.js
+  • HelpPage.js
+  • TermsPage.js
+  • PrivacyPage.js
+  • FreelancersPage.js
+  • PortfolioPage.js
+
+API Endpoints:          42
+  • Authentication: 6
+  • Jobs: 8
+  • Proposals: 9
+  • Contracts: 12
+  • Payments: 4
+  • Admin: 3
+
+Documentation:
+  • Lines of API docs: 400+
+  • Code examples: 12
+  • Setup instructions: Complete
+  • Troubleshooting guide: Included
+
+═══════════════════════════════════════════════════════════════
+
+QUICK ACCESS:
+
+Start Development:
+  $ npm start
+  Or: ./start.sh (Mac/Linux) or start.bat (Windows)
+
+Run Tests:
+  > testBackendConnection()  (in browser console)
+
+Access Test Accounts:
+  Admin:      admin@marketplace.com / admin123
+  Client:     client@example.com / client123
+  Freelancer: freelancer@example.com / freelancer123
+
+API Base URL:
+  http://localhost:8080/api
+
+═══════════════════════════════════════════════════════════════
+
+DOCUMENTATION MAP:
+
+For Quick Answer?          → QUICK_REFERENCE.md
+For Complete Guide?        → API_SETUP_GUIDE.md
+For Code Examples?         → INTEGRATION_EXAMPLES.js
+For Verification?          → SETUP_COMPLETE.md
+For Troubleshooting?       → API_SETUP_GUIDE.md (section 9)
+For Test Accounts?         → TEST_CREDENTIALS.js
+For Testing API?           → testConnection.js
+
+═══════════════════════════════════════════════════════════════
+
+CONFIGURATION READY ✅
+DOCUMENTATION COMPLETE ✅
+SETUP VERIFIED ✅
+READY FOR DEVELOPMENT ✅
+
+═══════════════════════════════════════════════════════════════
